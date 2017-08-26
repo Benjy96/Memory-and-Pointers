@@ -5,7 +5,28 @@
 		Elucidation of memory, pointers, and references.
 
 	Notes:
-		Allocating memory using the "new" keyword uses memory on the "heap"/store.
+	OPERATORS
+		- & is the reference operator. Gets the address of the object.
+
+		e.g.: 
+			int b = 0;
+			void(int& b)								//Pass by reference
+			{
+				b = 10;									//normally, we pass by value (create a copy)
+			}											//if we wanted to modify b outside the
+														//scope of the function when passing
+														//by value, we would have to return b
+
+			cout << "b is now: " << b;					//b is now: 10
+
+		- * is the pointer operator. Accesses the ADDRESS of the object. Use reference to assign it.
+			examples demonstrating this are beneath in main method
+
+		e.g.: 
+			int* p = &b;								//p now holds memory address of b
+
+	MEMORY
+		- Allocating memory using the "new" keyword uses memory on the "heap"/store.
 
 		Memory layout:
 			|	Code		|							//What it says on the tin
