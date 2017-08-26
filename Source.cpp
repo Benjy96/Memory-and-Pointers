@@ -5,6 +5,8 @@
 		Elucidation of memory, pointers, and references.
 
 	Notes:
+		- Operations on pointers (=, *, [ ]) map directly to hardware!
+
 	OPERATORS
 		- & is the reference operator. Gets the address of the object.
 
@@ -24,6 +26,9 @@
 
 		e.g.: 
 			int* p = &b;								//p now holds memory address of b
+
+		- . and -> are member access operators. They access data and function members of a class/type
+		- Difference is that -> is used on pointers, . is used on plain objects.
 
 	MEMORY
 		- Allocating memory using the "new" keyword uses memory on the "heap"/store.
@@ -48,13 +53,12 @@
 
 */
 //----- Vectors
-
 class vector1 {											//Leaks memory, no delete/destructor
 private:
 	int sz;												//Size of vector
 	double* elem;										//A pointer to elements
 
-public:				
+public:
 	//Constructor
 	vector1(int s) : sz{ s }, elem{ new double[s] }		//Initialize size and elem
 	{
@@ -69,10 +73,10 @@ class vector2 {
 private:
 	int sz;
 	double* elem;
-	
+
 public:
 	//Constructor
-	vector2(int s) : sz{ s }, elem{ new double[s] } 
+	vector2(int s) : sz{ s }, elem{ new double[s] }
 	{
 		for (int i = 0; i < s; ++i) elem[i] = 0;		//Subscript is same as content-of operator *
 	}
@@ -83,6 +87,22 @@ public:
 	//...methods
 };
 
+//Simple vector. You can assign and read its elements.
+class vector3 {
+private:
+	int sz;
+	double* elem;
+
+public:
+	vector3(int s) : sz{ s }, elem{ new double[s] } { /**/ }
+
+	~vector3() { delete[] elem; }
+
+	//Methods and functionality
+	int size() const { return sz; }
+	double get(int n) const { return elem[n]; }			//Read only. Note: elem[0] == *elem
+	void set(int n, double v) { elem[n] = v; }			//Write access.
+};
 //-----
 
 void sizes(char ch, int i, int* p, bool b, double d, string s) 
@@ -95,7 +115,8 @@ void sizes(char ch, int i, int* p, bool b, double d, string s)
 	cout << "the size of string is: " << sizeof(string) << ' ' << sizeof(s) << '\n';
 }
 
-int main() 
+//Print out values relating to memory addresses and values
+void refsAndPointers() 
 {
 	char a = 'a';
 	int b = 10;
@@ -103,12 +124,35 @@ int main()
 	bool boolean = true;
 	double d = 10.56;
 	string s = "Hello, world!";
-	
+
 	cout << "b's memory address: " << p << ", b's contents: " << *p;	//last: content-of operator (deref)
 	cout << '\n';
 
 	sizes(a, b, p, boolean, d, s);
-	
+}
+
+//Use our vector3 class to test the access member notation for pointers (->)
+void arrowOperator() 
+{
+	vector3* testArrowVector = new vector3(4);
+	cout << "\ntestArrowVector size: " << testArrowVector->size();
+	cout << "\ntestArrowVector[2]: " << testArrowVector->get(2);	//sort of like *p.x();
+	cout << "\nSetting index 2 to 13";
+	testArrowVector->set(2, 13);
+	cout << "\ntestArrowVector[2]: " << testArrowVector->get(2);
+	delete[] testArrowVector;	//not needed, scope is main, will delete at end of program
+}
+
+int main() 
+{
+	//References and pointer operations 
+	refsAndPointers();
+
+	//Arrow Operator - accesses data & function members like dot notation, but for pointers
+	arrowOperator();
+
+	//Keep window open
+	cout << '\n';
 	keep_window_open();
 	return 0;
 }
