@@ -5,7 +5,7 @@
 		Elucidation of memory, pointers, and references.
 
 	Notes:
-		- Operations on pointers (=, *, [ ]) map directly to hardware!
+		- Operations on pointers (=, *, [ ]) map directly to machine instructions!
 
 	OPERATORS
 		- & is the reference operator. Gets the address of the object.
